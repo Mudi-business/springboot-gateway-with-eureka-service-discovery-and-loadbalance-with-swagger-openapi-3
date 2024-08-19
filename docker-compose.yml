@@ -21,18 +21,21 @@ services:
       image: first-service_image:0.1
       environment:
         APPLICATION_NAME: first-service 
-        POSTGRES_USER: nifamiliadb
-        POSTGRES_PASSWORD: nifamilia2424
-        DB_URL: 41.73.196.238
-        DB_PORT: 5054
-        DB_SCHEMA: eureka_db_1
+        POSTGRES_USER: test_user
+        POSTGRES_PASSWORD: test_passowrd
+        #Without http and port
+        DB_URL: localhost
+        DB_PORT: 5432
+        DB_SCHEMA: test_db_1
+        #Without http and port
         API_GATEWAY_PATH: localhost 
-        API_GATEWAY_PORT: 5057
+        API_GATEWAY_PORT: 5050
+        #i'm using eureka server since docker doesn't know localhost and i'm on my eureka network , I can call my services by their names
         EUREKA_URL: eureka-server 
         EUREKA_PORT: 8761
         SPRING_DOCS_PATH: first       
       ports:
-        - "5076:5076"
+        - "0:5051"
       restart: always
       depends_on:
         - eureka-server
@@ -48,13 +51,15 @@ services:
       image: first-service_replica_image:0.1
       environment:
         APPLICATION_NAME: first-service 
-        POSTGRES_USER: nifamiliadb
-        POSTGRES_PASSWORD: nifamilia2424
-        DB_URL: 41.73.196.238
-        DB_PORT: 5054
-        DB_SCHEMA: eureka_db_2
+        POSTGRES_USER: test_user
+        POSTGRES_PASSWORD: test_password
+        DB_URL: localhost
+        DB_PORT: 5432
+        DB_SCHEMA: test_db_2
+        #Without http and port
         API_GATEWAY_PATH: localhost 
-        API_GATEWAY_PORT: 5057
+        API_GATEWAY_PORT: 5050
+        #i'm using eureka server since docker doesn't know localhost and i'm on my eureka network , I can call my services by their names
         EUREKA_URL: eureka-server 
         EUREKA_PORT: 8761
         SPRING_DOCS_PATH: first              
@@ -83,8 +88,3 @@ services:
 networks:
   eureka-network:
     driver: bridge
-
-#networks:
- # default:
-  #  external:
-   #   name: network
