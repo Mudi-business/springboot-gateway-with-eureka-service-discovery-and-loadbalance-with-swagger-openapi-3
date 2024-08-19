@@ -1,0 +1,31 @@
+server:
+  port: ${port:5057}
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: first-service
+          uri: lb://first-service
+          predicates:
+          - Path=/first/**
+          filters:
+          - RewritePath=/first/(?<path>.*), /$\{path}   
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+          - Path=/v3/api-docs/**
+          filters:
+          - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs            
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: First Service
+        url: /first
+    

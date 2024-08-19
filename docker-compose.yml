@@ -1,0 +1,90 @@
+version: '3'
+
+services:
+    eureka-server:
+      hostname: eureka-server
+      build:
+         context: ./eureka 
+         dockerfile: Dockerfile
+      image: eureka_server_image:0.1
+      ports:
+        - "8761:8761"
+      restart: always
+      networks:
+        - eureka-network
+
+    first-service:
+      hostname: first-service
+      build:
+         context: ./service_1
+         dockerfile: Dockerfile
+      image: first-service_image:0.1
+      environment:
+        APPLICATION_NAME: first-service 
+        POSTGRES_USER: nifamiliadb
+        POSTGRES_PASSWORD: nifamilia2424
+        DB_URL: 41.73.196.238
+        DB_PORT: 5054
+        DB_SCHEMA: eureka_db_1
+        API_GATEWAY_PATH: localhost 
+        API_GATEWAY_PORT: 5057
+        EUREKA_URL: eureka-server 
+        EUREKA_PORT: 8761
+        SPRING_DOCS_PATH: first       
+      ports:
+        - "5076:5076"
+      restart: always
+      depends_on:
+        - eureka-server
+      networks:
+        - eureka-network
+
+    #duplicated this service wih different database purposly for checking if load-balance's working fine
+    first-service_replica:
+      hostname: first-service
+      build:
+         context: ./service_1_dup/service_1
+         dockerfile: Dockerfile
+      image: first-service_replica_image:0.1
+      environment:
+        APPLICATION_NAME: first-service 
+        POSTGRES_USER: nifamiliadb
+        POSTGRES_PASSWORD: nifamilia2424
+        DB_URL: 41.73.196.238
+        DB_PORT: 5054
+        DB_SCHEMA: eureka_db_2
+        API_GATEWAY_PATH: localhost 
+        API_GATEWAY_PORT: 5057
+        EUREKA_URL: eureka-server 
+        EUREKA_PORT: 8761
+        SPRING_DOCS_PATH: first              
+      ports:
+        - "5077:5077"
+      restart: always
+      depends_on:
+        - eureka-server
+      networks:
+        - eureka-network        
+
+    api_gateway:
+      hostname: zra_gateway
+      build:
+         context: ./api-gateway
+         dockerfile: Dockerfile
+      image: test_gateway_image:0.1
+      ports:
+        - "5057:5057"
+      restart: always
+      depends_on:
+        - eureka-server
+      networks:
+        - eureka-network
+
+networks:
+  eureka-network:
+    driver: bridge
+
+#networks:
+ # default:
+  #  external:
+   #   name: network
