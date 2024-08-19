@@ -64,7 +64,7 @@ services:
         EUREKA_PORT: 8761
         SPRING_DOCS_PATH: first              
       ports:
-        - "5077:5077"
+        - "0:5052"
       restart: always
       depends_on:
         - eureka-server
