@@ -1,7 +1,7 @@
 # springboot-gateway-with-eureka-service-discovery-and-loadbalance-with-swagger-openapi-3
 dockerized Micro-services spring gateway that connects with eureka service discovery, making an internal docker connection  which makes it fast and reliable, also with eureka again we were able to create a load balance for our test service called service_1 , we created two different instance and db's of service_1 to check if the load balance's working
 
-FOR DOCKER
+WITH DOCKER
 
 Note: docker-compose.yml contains a eureka-network which help us call all of our services by continer's name instead of localhost or local IPs because internal container communications make
 service respond super fast and secured since no external IP's exposed out apart from eureka and gateway all other services IPs are invincible outside so it's highly recomended, but you can also
