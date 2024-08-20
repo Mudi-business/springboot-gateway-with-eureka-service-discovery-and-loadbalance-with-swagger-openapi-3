@@ -25,7 +25,7 @@ WITHOUT DOCKER
 7) navigate to your schema one at time you will find a users table , try to select * users from your db_1 and db_2 you find them all with data meaning that the loadbalance is working fine
 
 
-If there are any bugs don't hesitate to add them on the issues sections for more modifications
+If there are any bugs don't hesitate to add them on the issues section for more modifications
 Thank you , I hope this will be a step in mastering Spring-boot Microservices Archietecture.
-Don't forget to give me a start if all this was helpful to you.
+Don't forget to give me a star if all this was helpful to you.
    
